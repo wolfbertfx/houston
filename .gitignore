@@ -1,0 +1,9 @@
+/.idea/
+
+# OSX
+.DS_Store
+/artifacts/
+
+/back_dev_compose.yml
+/release_jvm_compose.yml
+/release_native_compose.yml
