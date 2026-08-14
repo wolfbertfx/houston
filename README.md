@@ -1,34 +1,36 @@
 # Houston
 
-Hybrid Trading & Market Data Pipeline (Home ⇄ Cloud Architecture).
+Гибридный торговый пайплайн и платформа обработки рыночных данных (Архитектура Дом ⇄ Облако).
 
-## Architecture Overview
+## Обзор архитектуры
 
-Houston is a high-performance streaming trading platform designed for real-time market data ingestion, futures stitching, heavy mathematical analytics (Hurst cycles, wave analysis, Byers scoring), and state lifecycle tracking (`Fairways`).
+Houston — это высокопроизводительная торговая система на базе потоковой обработки данных, предназначенная для ингеста котировок в реальном времени, склейки фьючерсов, тяжелой математической аналитики (циклы Херста, волновой анализ, скоринг Байерса) и трекинга жизненного цикла состояний (`Fairways`).
 
-### Monorepo Modules
+### Модули монорепозитория
 
-* `ingestion/` — Raw market data ingestion from exchanges (starting with MOEX) and event publishing to the broker.
-* `processing/` — Futures stitching ("по панаме") and historical/streaming database recording.
-* `analytics/` — Heavy analytical models, scoring, and `Fairways` state lifecycle management (written in Scala).
-* `control/` — Control Center (ЦУП): exchange schedules, metric monitoring, and debug time-travel replay mode.
-* `console/` — Frontend UI for the Control Center.
-* `uplink/` — Home gateway streaming real-time data securely via gRPC to the cloud.
-* `common/` — Shared contracts, domain models, and enums.
+* `ingestion/` — сбор сырых данных с бирж (начинаем с MOEX) и публикация в шину данных.
+* `processing/` — склейка фьючерсов («по панаме») и запись в базу данных.
+* `analytics/` — расчет гипотез, скоринг и управление жизненным циклом состояний `Fairways` (написана на Scala).
+* `control/` — ЦУП (Центр Управления Полетами): расписание бирж, мониторинг метрик, дебаг-режим с пошаговым реплеем аналитики (time-travel).
+* `console/` — фронтенд для Control Center.
+* `uplink/` — домашний мост, стримящий риалтайм-данные наружу в облако по защищенному gRPC.
+* `common/` — общие контракты, доменные модели и перечисления (enums).
 
-## Technology Stack
+## Технологический стек
 
-* **Core Services:** Quarkus + Java 21 (Virtual Threads) for high-throughput I/O; Scala for analytics.
-* **Infrastructure:** 
-  * Kafka / Native Kafka (Event-driven streaming for candles and system events)
-  * Redis (Caching, active ticker lists, latest prices)
-  * TimescaleDB / PostgreSQL (Unified storage for time-series history and Fairways lifecycles)
-* **Hybrid Cloud/Home Sync:** Native TimescaleDB replication from the home master database to the cloud replica via Tailscale. Real-time streaming via gRPC.
+* **Сервисы:** Quarkus + Java 21 (Virtual Threads) для быстрого сетевого ввода-вывода; Scala для математической аналитики.
+* **Инфраструктура:** 
+  * Kafka / Native Kafka (шина событий для свечей и системных событий)
+  * Redis (кэш, списки активных тикеров, актуальные цены)
+  * TimescaleDB / PostgreSQL (единое хранилище для истории цен и стейтов Fairways)
+* **Гибридный контур «Дом ⇄ Облако»:**
+  * Холодный слой: нативная репликация TimescaleDB из домашней мастер-базы в облачную реплику через Tailscale.
+  * Горячий слой: риалтайм-поток через gRPC от домашнего uplink к облачному Quarkus.
 
-## Getting Started
+## Быстрый старт
 
-1. Set up the environment using Docker Compose:
+1. Запуск инфраструктуры в Docker Compose:
    ```bash
    docker compose -f dev_env_compose.yml up -d
    ```
-2. Build and run modules using Maven wrapper inside respective directories.
+2. Сборка и запуск модулей выполняются через Maven wrapper (`./mvnw`) внутри соответствующих директорий.
