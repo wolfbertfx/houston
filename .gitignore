@@ -1,9 +1,4 @@
 /.idea/
-
-# OSX
 .DS_Store
-/artifacts/
+/dev_env_compose.yml
 
-/back_dev_compose.yml
-/release_jvm_compose.yml
-/release_native_compose.yml

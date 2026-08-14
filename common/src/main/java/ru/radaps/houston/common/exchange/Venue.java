@@ -1,15 +1,11 @@
-/* Copyright (c) 2026 LLC "Radaps". All rights reserved. Internal Use Only. Confidential.*/
-package com.radaps.ewaspace.houston.shared.exchange;
-
-import com.radaps.ewaspace.houston.shared.Identifiable;
-import com.radaps.ewaspace.houston.shared.Localizable;
+package ru.radaps.houston.common.exchange;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 /** Представляет собой источник истины (Primary Exchange) */
-public enum Venue implements Localizable, Identifiable {
+public enum Venue {
 
     /** Intercontinental Exchange (ICE) */
     ICE(1, "Europe/London", true, true, true),
@@ -35,43 +31,23 @@ public enum Venue implements Localizable, Identifiable {
     private final boolean hasCentralClearing;
 
     private static final Map<Integer, Venue> BY_ID;
-    private static final Map<String, Venue> BY_NAME;
 
-    static {
-        BY_ID = Arrays.stream(values()).collect(Collectors.toMap(Venue::getId, e -> e));
-        BY_NAME = Arrays.stream(values()).collect(Collectors.toMap(e -> e.name().toUpperCase(), e -> e));
-    }
+    static {BY_ID = Arrays.stream(values()).collect(Collectors.toMap(Venue::getId, e -> e));}
 
     Venue(int id, String timeZone, boolean hasOrderBook, boolean hasTradingSession, boolean hasCentralClearing) {
-        this.id = id;
-        this.timeZone = timeZone;
-        this.hasOrderBook = hasOrderBook;
-        this.hasTradingSession = hasTradingSession;
-        this.hasCentralClearing = hasCentralClearing;
+        this.id = id; this.timeZone = timeZone; this.hasOrderBook = hasOrderBook;
+        this.hasTradingSession = hasTradingSession; this.hasCentralClearing = hasCentralClearing;
     }
 
+    public int getId() {return id;}
     public String getTimeZone() { return timeZone; }
     public boolean hasOrderBook() { return hasOrderBook; }
     public boolean hasTradingSession() { return hasTradingSession; }
     public boolean hasCentralClearing() { return hasCentralClearing; }
 
     public static Venue fromId(int id) {
-        Venue venue = BY_ID.get(id);
+        var venue = BY_ID.get(id);
         if (venue == null) throw new IllegalArgumentException("Unknown Venue ID: " + id);
         return venue;
-    }
-
-    public static Venue fromString(String name) {
-        Venue venue = BY_NAME.get(name.toUpperCase());
-        if (venue == null) throw new IllegalArgumentException("Unknown Venue name: " + name);
-        return venue;
-    }
-
-    @Override
-    public int getId() {return id;}
-
-    @Override
-    public String getLocaleKey() {
-        return "exchange.venue." + this.name().toLowerCase();
     }
 }
