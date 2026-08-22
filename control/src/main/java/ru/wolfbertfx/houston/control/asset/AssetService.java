@@ -6,7 +6,7 @@ import jakarta.enterprise.event.Observes;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.wolfbertfx.houston.common.asset.Status;
+import ru.wolfbertfx.houston.common.asset.Mode;
 import ru.wolfbertfx.houston.common.asset.Ticker;
 import ru.wolfbertfx.houston.control.asset.domain.Asset;
 import ru.wolfbertfx.houston.control.asset.domain.AssetRepository;
@@ -42,20 +42,20 @@ public class AssetService {
 
         for (Ticker ticker : enumTickers) {
             if (!existingTickers.contains(ticker)) {
-                Asset asset = new Asset(ticker, Status.DISABLED, Instant.now());
+                Asset asset = new Asset(ticker, Mode.DISABLED, Instant.now());
                 assetRepository.upsert(asset);
             }
         }
     }
 
     @Transactional
-    public Asset updateStatus(Ticker ticker, Status status) {
+    public Asset updateMode(Ticker ticker, Mode mode) {
         var existing = assetRepository.listAllAssets().stream()
                 .filter(a -> a.ticker().equals(ticker))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Asset not found: " + ticker));
         
-        Asset updated = existing.withStatus(status);
+        Asset updated = existing.withMode(mode);
         assetRepository.upsert(updated);
         return updated;
     }

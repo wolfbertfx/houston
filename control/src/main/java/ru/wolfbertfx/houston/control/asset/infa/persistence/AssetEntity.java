@@ -1,7 +1,7 @@
 package ru.wolfbertfx.houston.control.asset.infa.persistence;
 
 import jakarta.persistence.*;
-import ru.wolfbertfx.houston.common.asset.Status;
+import ru.wolfbertfx.houston.common.asset.Mode;
 import ru.wolfbertfx.houston.common.asset.Ticker;
 import java.time.Instant;
 import java.util.Objects;
@@ -18,9 +18,9 @@ class AssetEntity {
     @Column(name = "ticker_id", nullable = false, unique = true)
     private Ticker ticker;
 
-    @Convert(converter = StatusConverter.class)
-    @Column(name = "status_id", nullable = false)
-    private Status status = Status.DISABLED;
+    @Convert(converter = ModeConverter.class)
+    @Column(name = "mode_id", nullable = false)
+    private Mode mode = Mode.DISABLED;
 
     @Version
     @Column(name = "version", nullable = false)
@@ -37,8 +37,8 @@ class AssetEntity {
     public void setId(Long id) {this.id = id;}
     public Ticker getTicker() {return ticker;}
     public void setTicker(Ticker ticker) {this.ticker = ticker;}
-    public Status getStatus() {return status;}
-    public void setStatus(Status status) {this.status = status;}
+    public Mode getMode() {return mode;}
+    public void setMode(Mode mode) {this.mode = mode;}
     public Long getVersion() {return version;}
     public void setVersion(Long version) {this.version = version;}
     public Instant getLastUpdated() {return lastUpdated;}

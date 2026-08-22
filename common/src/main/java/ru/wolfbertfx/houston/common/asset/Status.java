@@ -5,19 +5,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Административный статус актива.
- * Определяет, разрешено ли системе выполнять операции с инструментом (запись данных, анализ, стриминг).
+ * Текущий статус работы системы с активом (производное значение, вычисляется автоматически).
+ * Определяет, чем система сейчас занимается с инструментом. Не является волей администратора —
+ * для этого существует {@link Mode}.
  */
 public enum Status {
 
-    /** Активы в архиве. Система игнорирует любые операции с ним. */
-    DISABLED(0),
-    /** Идет процесс первичной настройки или импорта истории. */
-    PREPARING(1),
-    /** Актив готов к работе в штатном режиме. */
-    ACTIVE(2),
-    /** Ручная блокировка для проведения технических работ или корректировки данных. */
-    MAINTENANCE(3);
+    /** Нет активной работы: актив отключен, не сконфигурирован или стоит на паузе. */
+    IDLE(0),
+    /** Идет докачка истории: гэп между watermark и текущим моментом велик, тянем чанками. */
+    BACKFILL(1),
+    /** Штатный режим: поллим текущие данные с заданным интервалом. */
+    LIVE(2);
 
     private final int id;
     private static final Map<Integer, Status> BY_ID;
@@ -29,7 +28,7 @@ public enum Status {
 
     public static Status fromId(int id) {
         var status = BY_ID.get(id);
-        if (status == null) throw new IllegalArgumentException("Unknown AssetStatus ID: " + id);
+        if (status == null) throw new IllegalArgumentException("Unknown Status ID: " + id);
         return status;
     }
 }
