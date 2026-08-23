@@ -1,6 +1,5 @@
 package ru.wolfbertfx.houston.common.asset;
 
-import ru.wolfbertfx.houston.common.asset.Currency;
 import ru.wolfbertfx.houston.common.venue.Venue;
 
 import java.util.Arrays;
@@ -8,12 +7,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Каталог активов: компилируемый справочник торговых инструментов и синтетических активов (например, склеек по методу PANAMA).
- * Контракт для Kafka — сообщения несут числовой ID (без строк), семантика восстанавливается на приёмнике через fromId().
- * Держит неизменяемые метаданные (биржа, тип, природа, сегмент, валюта, пайплайн обработки).
+ * Инструмент — рыночный объект в системе: числовой ID (контракт для Kafka/API)
+ * и неизменяемые метаданные (площадка, тип, природа, сегмент, валюта, пайплайн обработки).
+ * Не путать с Symbol — строковым кодом источника у провайдера.
  * Операционное состояние (Status, DataSource, политика склейки) живёт в control/Redis — здесь только инварианты.
  */
-public enum Catalog {
+public enum Instrument {
 
     /** --- MOEX --- */
     //MO_IMOEX_CALC(10000, Venue.MOEX, Type.CALC, Nature.INDEX, Segment.EQUITY, Currency.RUB, Pipeline.DIRECT),
@@ -69,10 +68,10 @@ public enum Catalog {
     private final Currency currency;
     private final Pipeline pipeline;
 
-    private static final Map<Integer, Catalog> BY_ID;
-    static {BY_ID = Arrays.stream(values()).collect(Collectors.toMap(Catalog::getId, e -> e));}
+    private static final Map<Integer, Instrument> BY_ID;
+    static {BY_ID = Arrays.stream(values()).collect(Collectors.toMap(Instrument::getId, e -> e));}
 
-    Catalog(int id, Venue venue, Type type, Nature nature, Segment segment, Currency currency, Pipeline pipeline) {
+    Instrument(int id, Venue venue, Type type, Nature nature, Segment segment, Currency currency, Pipeline pipeline) {
         this.id = id; this.venue = venue; this.type = type; this.nature = nature;
         this.segment = segment; this.currency = currency; this.pipeline = pipeline;
     }
@@ -86,9 +85,9 @@ public enum Catalog {
     public Pipeline getPipeline() { return pipeline; }
     public String getSymbol() { return name(); }
 
-    public static Catalog fromId(int id) {
-        var entry = BY_ID.get(id);
-        if (entry == null) throw new IllegalArgumentException("Unknown Catalog ID: " + id);
-        return entry;
+    public static Instrument fromId(int id) {
+        var instrument = BY_ID.get(id);
+        if (instrument == null) throw new IllegalArgumentException("Unknown Instrument ID: " + id);
+        return instrument;
     }
 }

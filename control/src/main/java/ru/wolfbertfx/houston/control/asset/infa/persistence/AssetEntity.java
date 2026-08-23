@@ -1,7 +1,7 @@
 package ru.wolfbertfx.houston.control.asset.infa.persistence;
 
 import jakarta.persistence.*;
-import ru.wolfbertfx.houston.common.asset.Catalog;
+import ru.wolfbertfx.houston.common.asset.Instrument;
 import ru.wolfbertfx.houston.common.asset.Status;
 import java.time.Instant;
 import java.util.Objects;
@@ -14,9 +14,9 @@ class AssetEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Convert(converter = CatalogConverter.class)
-    @Column(name = "ticker_id", nullable = false, unique = true)
-    private Catalog ticker;
+    @Convert(converter = InstrumentConverter.class)
+    @Column(name = "instrument_id", nullable = false, unique = true)
+    private Instrument instrument;
 
     @Convert(converter = StatusConverter.class)
     @Column(name = "status_id", nullable = false)
@@ -24,7 +24,7 @@ class AssetEntity {
 
     @Version
     @Column(name = "version", nullable = false)
-    private Long version = 0L;
+    private Long version;
 
     @Column(name = "last_updated")
     private Instant lastUpdated;
@@ -35,8 +35,8 @@ class AssetEntity {
 
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
-    public Catalog getTicker() {return ticker;}
-    public void setTicker(Catalog ticker) {this.ticker = ticker;}
+    public Instrument getInstrument() {return instrument;}
+    public void setInstrument(Instrument instrument) {this.instrument = instrument;}
     public Status getStatus() {return status;}
     public void setStatus(Status status) {this.status = status;}
     public Long getVersion() {return version;}
@@ -48,11 +48,11 @@ class AssetEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AssetEntity that)) return false;
-        return ticker != null && ticker.equals(that.ticker);
+        return instrument != null && instrument.equals(that.instrument);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ticker);
+        return Objects.hash(instrument);
     }
 }

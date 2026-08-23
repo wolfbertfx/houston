@@ -6,7 +6,7 @@ import jakarta.enterprise.event.Observes;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.wolfbertfx.houston.common.asset.Catalog;
+import ru.wolfbertfx.houston.common.asset.Instrument;
 import ru.wolfbertfx.houston.common.asset.Status;
 import ru.wolfbertfx.houston.control.asset.domain.Asset;
 import ru.wolfbertfx.houston.control.asset.domain.AssetNotFoundException;
@@ -28,7 +28,7 @@ public class AssetService {
 
     void onStart(@Observes StartupEvent ev) {
         log.info("System startup: triggering asset synchronization...");
-        syncWithCatalog(Catalog.values());
+        syncWithRegistry(Instrument.values());
     }
 
     public List<Asset> getAllAssets() {
@@ -36,25 +36,25 @@ public class AssetService {
     }
 
     @Transactional
-    public void syncWithCatalog(Catalog[] catalogEntries) {
-        var existingTickers = assetRepository.listAllAssets().stream()
-                .map(Asset::ticker)
+    public void syncWithRegistry(Instrument[] instruments) {
+        var existingInstruments = assetRepository.listAllAssets().stream()
+                .map(Asset::instrument)
                 .toList();
 
-        for (Catalog ticker : catalogEntries) {
-            if (!existingTickers.contains(ticker)) {
-                Asset asset = new Asset(ticker, Status.DISABLED, Instant.now());
+        for (Instrument instrument : instruments) {
+            if (!existingInstruments.contains(instrument)) {
+                var asset = new Asset(instrument, Status.DISABLED, Instant.now());
                 assetRepository.upsert(asset);
             }
         }
     }
 
     @Transactional
-    public Asset updateStatus(Catalog ticker, Status status) {
+    public Asset updateStatus(Instrument instrument, Status status) {
         var existing = assetRepository.listAllAssets().stream()
-                .filter(a -> a.ticker().equals(ticker))
+                .filter(a -> a.instrument().equals(instrument))
                 .findFirst()
-                .orElseThrow(() -> new AssetNotFoundException(ticker));
+                .orElseThrow(() -> new AssetNotFoundException(instrument));
         
         Asset updated = existing.withStatus(status);
         assetRepository.upsert(updated);

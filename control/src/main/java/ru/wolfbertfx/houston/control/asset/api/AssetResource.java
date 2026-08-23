@@ -7,20 +7,27 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import ru.wolfbertfx.houston.common.asset.Catalog;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import ru.wolfbertfx.houston.common.asset.Instrument;
 import ru.wolfbertfx.houston.control.asset.AssetService;
 import ru.wolfbertfx.houston.control.asset.api.dto.AssetApiMapper;
 import ru.wolfbertfx.houston.control.asset.api.dto.AssetResponse;
-import ru.wolfbertfx.houston.control.asset.api.dto.ErrorResponse;
 import ru.wolfbertfx.houston.control.asset.api.dto.UpdateAssetStatusRequest;
-import ru.wolfbertfx.houston.control.asset.domain.AssetNotFoundException;
+import ru.wolfbertfx.houston.control.shared.api.ErrorResponse;
 
 import java.util.List;
 
 @Path("/api/control/assets")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Tag(name = "Assets", description = "Жизненный цикл активов в системе")
+
 public class AssetResource {
 
     private final AssetService assetService;
@@ -30,36 +37,31 @@ public class AssetResource {
     }
 
     @GET
+    @Operation(operationId = "listAssets", summary = "Список всех активов",
+    description = "Возвращает полный каталог активов с их статусами и статическими метаданными.")
+    @APIResponse(responseCode = "200", description = "Каталог активов", content = @Content(
+    mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = AssetResponse.class)))
+
     public List<AssetResponse> listAssets() {
         return AssetApiMapper.toResponses(assetService.getAllAssets());
     }
 
     @PATCH
-    @Path("/{ticker}/status")
-    public Response updateStatus(@PathParam("ticker") String tickerStr, UpdateAssetStatusRequest request) {
-        var ticker = parseTicker(tickerStr);
-        if (ticker == null) {
-            return badRequest("Unknown ticker: " + tickerStr);
-        }
-        try {
-            var asset = assetService.updateStatus(ticker, request.toStatus());
-            return Response.ok(AssetApiMapper.toResponse(asset)).build();
-        } catch (AssetNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND).entity(ErrorResponse.of(e.getMessage())).build();
-        } catch (IllegalArgumentException e) {
-            return badRequest(e.getMessage());
-        }
-    }
+    @Path("/{instrumentId}/status")
+    @Operation(operationId = "updateAssetStatus", summary = "Смена статуса актива",
+    description = "Управляет жизненным циклом актива. Режим работы системы " +
+    "(докачка/живой сбор) система определяет сама и возвращает в поле State.")
+    @Parameter(name = "instrumentId", description = "Числовой ID инструмента",
+    required = true, example = "10020")
+    @APIResponse(responseCode = "200", description = "Статус обновлён",
+    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AssetResponse.class)))
+    @APIResponse(responseCode = "400", description = "Неизвестный instrumentId или statusId",
+    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+    @APIResponse(responseCode = "404", description = "Актив отсутствует в системе",
+    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 
-    private Catalog parseTicker(String value) {
-        try {
-            return Catalog.valueOf(value.trim().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
-    }
-
-    private Response badRequest(String message) {
-        return Response.status(Response.Status.BAD_REQUEST).entity(ErrorResponse.of(message)).build();
+    public AssetResponse updateStatus(@PathParam("instrumentId") int instrumentId, UpdateAssetStatusRequest request) {
+        var asset = assetService.updateStatus(Instrument.fromId(instrumentId), request.toStatus());
+        return AssetApiMapper.toResponse(asset);
     }
 }

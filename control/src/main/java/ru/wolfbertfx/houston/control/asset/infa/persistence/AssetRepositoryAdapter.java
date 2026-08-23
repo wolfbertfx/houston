@@ -22,10 +22,10 @@ public class AssetRepositoryAdapter implements AssetRepository, PanacheRepositor
     @Override
     @Transactional
     public void upsert(Asset asset) {
-        AssetEntity entity = find("ticker", asset.ticker()).firstResult();
+        AssetEntity entity = find("instrument", asset.instrument()).firstResult();
         if (entity == null) {
             entity = new AssetEntity();
-            entity.setTicker(asset.ticker());
+            entity.setInstrument(asset.instrument());
             entity.setStatus(asset.status());
             entity.setLastUpdated(asset.lastUpdated());
             persist(entity);
@@ -36,6 +36,6 @@ public class AssetRepositoryAdapter implements AssetRepository, PanacheRepositor
     }
 
     private Asset toDomain(AssetEntity entity) {
-        return new Asset(entity.getTicker(), entity.getStatus(), entity.getLastUpdated());
+        return new Asset(entity.getInstrument(), entity.getStatus(), entity.getLastUpdated());
     }
 }
