@@ -1,15 +1,22 @@
 package ru.wolfbertfx.houston.control.asset.api;
 
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ru.wolfbertfx.houston.common.asset.Mode;
-import ru.wolfbertfx.houston.common.asset.Ticker;
+import ru.wolfbertfx.houston.common.asset.Catalog;
 import ru.wolfbertfx.houston.control.asset.AssetService;
-import ru.wolfbertfx.houston.control.asset.domain.Asset;
+import ru.wolfbertfx.houston.control.asset.api.dto.AssetApiMapper;
+import ru.wolfbertfx.houston.control.asset.api.dto.AssetResponse;
+import ru.wolfbertfx.houston.control.asset.api.dto.ErrorResponse;
+import ru.wolfbertfx.houston.control.asset.api.dto.UpdateAssetStatusRequest;
+import ru.wolfbertfx.houston.control.asset.domain.AssetNotFoundException;
 
 import java.util.List;
-import java.util.Map;
 
 @Path("/api/control/assets")
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,20 +30,36 @@ public class AssetResource {
     }
 
     @GET
-    public List<Asset> listAssets() {
-        return assetService.getAllAssets();
+    public List<AssetResponse> listAssets() {
+        return AssetApiMapper.toResponses(assetService.getAllAssets());
     }
 
     @PATCH
-    @Path("/{ticker}/mode")
-    public Response updateMode(@PathParam("ticker") String tickerStr, @QueryParam("value") String modeStr) {
-        try {
-            Ticker ticker = Ticker.valueOf(tickerStr.toUpperCase());
-            Mode mode = Mode.valueOf(modeStr.toUpperCase());
-            Asset asset = assetService.updateMode(ticker, mode);
-            return Response.ok(asset).build();
-        } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(Map.of("error", e.getMessage())).build();
+    @Path("/{ticker}/status")
+    public Response updateStatus(@PathParam("ticker") String tickerStr, UpdateAssetStatusRequest request) {
+        var ticker = parseTicker(tickerStr);
+        if (ticker == null) {
+            return badRequest("Unknown ticker: " + tickerStr);
         }
+        try {
+            var asset = assetService.updateStatus(ticker, request.toStatus());
+            return Response.ok(AssetApiMapper.toResponse(asset)).build();
+        } catch (AssetNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(ErrorResponse.of(e.getMessage())).build();
+        } catch (IllegalArgumentException e) {
+            return badRequest(e.getMessage());
+        }
+    }
+
+    private Catalog parseTicker(String value) {
+        try {
+            return Catalog.valueOf(value.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    private Response badRequest(String message) {
+        return Response.status(Response.Status.BAD_REQUEST).entity(ErrorResponse.of(message)).build();
     }
 }

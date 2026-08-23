@@ -1,8 +1,8 @@
 package ru.wolfbertfx.houston.control.asset.infa.persistence;
 
 import jakarta.persistence.*;
-import ru.wolfbertfx.houston.common.asset.Mode;
-import ru.wolfbertfx.houston.common.asset.Ticker;
+import ru.wolfbertfx.houston.common.asset.Catalog;
+import ru.wolfbertfx.houston.common.asset.Status;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -14,13 +14,13 @@ class AssetEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Convert(converter = TickerConverter.class)
+    @Convert(converter = CatalogConverter.class)
     @Column(name = "ticker_id", nullable = false, unique = true)
-    private Ticker ticker;
+    private Catalog ticker;
 
-    @Convert(converter = ModeConverter.class)
-    @Column(name = "mode_id", nullable = false)
-    private Mode mode = Mode.DISABLED;
+    @Convert(converter = StatusConverter.class)
+    @Column(name = "status_id", nullable = false)
+    private Status status = Status.DISABLED;
 
     @Version
     @Column(name = "version", nullable = false)
@@ -35,10 +35,10 @@ class AssetEntity {
 
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
-    public Ticker getTicker() {return ticker;}
-    public void setTicker(Ticker ticker) {this.ticker = ticker;}
-    public Mode getMode() {return mode;}
-    public void setMode(Mode mode) {this.mode = mode;}
+    public Catalog getTicker() {return ticker;}
+    public void setTicker(Catalog ticker) {this.ticker = ticker;}
+    public Status getStatus() {return status;}
+    public void setStatus(Status status) {this.status = status;}
     public Long getVersion() {return version;}
     public void setVersion(Long version) {this.version = version;}
     public Instant getLastUpdated() {return lastUpdated;}

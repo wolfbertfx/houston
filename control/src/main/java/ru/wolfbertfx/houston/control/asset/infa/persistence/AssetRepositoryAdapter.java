@@ -26,16 +26,16 @@ public class AssetRepositoryAdapter implements AssetRepository, PanacheRepositor
         if (entity == null) {
             entity = new AssetEntity();
             entity.setTicker(asset.ticker());
-            entity.setMode(asset.mode());
+            entity.setStatus(asset.status());
             entity.setLastUpdated(asset.lastUpdated());
             persist(entity);
         } else {
-            entity.setMode(asset.mode());
+            entity.setStatus(asset.status());
             entity.setLastUpdated(asset.lastUpdated());
         }
     }
 
     private Asset toDomain(AssetEntity entity) {
-        return new Asset(entity.getTicker(), entity.getMode(), entity.getLastUpdated());
+        return new Asset(entity.getTicker(), entity.getStatus(), entity.getLastUpdated());
     }
 }

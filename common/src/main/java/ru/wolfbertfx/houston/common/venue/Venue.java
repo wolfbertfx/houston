@@ -1,4 +1,4 @@
-package ru.wolfbertfx.houston.common.exchange;
+package ru.wolfbertfx.houston.common.venue;
 
 import java.util.Arrays;
 import java.util.Map;
