@@ -2,6 +2,7 @@ package ru.wolfbertfx.houston.control.asset.api.dto;
 
 import ru.wolfbertfx.houston.common.asset.Instrument;
 import ru.wolfbertfx.houston.common.asset.Currency;
+import ru.wolfbertfx.houston.common.asset.Discovery;
 import ru.wolfbertfx.houston.common.asset.Nature;
 import ru.wolfbertfx.houston.common.asset.Pipeline;
 import ru.wolfbertfx.houston.common.asset.Segment;
@@ -24,6 +25,7 @@ public record AssetResponse(
         Nature nature,
         Segment segment,
         Currency currency,
+        Discovery discovery,
         Pipeline pipeline,
         Instant lastUpdated
 ) {

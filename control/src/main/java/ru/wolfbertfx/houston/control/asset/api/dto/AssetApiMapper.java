@@ -24,6 +24,7 @@ public final class AssetApiMapper {
                 instrument.getNature(),
                 instrument.getSegment(),
                 instrument.getCurrency(),
+                instrument.getDiscovery(),
                 instrument.getPipeline(),
                 asset.lastUpdated()
         );
