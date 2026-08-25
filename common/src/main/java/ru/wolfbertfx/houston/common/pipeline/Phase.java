@@ -1,4 +1,4 @@
-package ru.wolfbertfx.houston.common.venue;
+package ru.wolfbertfx.houston.common.pipeline;
 
 import java.util.Arrays;
 import java.util.Map;

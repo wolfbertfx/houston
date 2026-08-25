@@ -1,6 +1,6 @@
 package ru.wolfbertfx.houston.common.asset;
 
-import ru.wolfbertfx.houston.common.venue.Venue;
+import ru.wolfbertfx.houston.common.pipeline.Pipeline;
 
 import java.util.Arrays;
 import java.util.Map;

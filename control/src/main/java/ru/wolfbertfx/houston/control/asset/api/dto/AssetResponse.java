@@ -1,14 +1,13 @@
 package ru.wolfbertfx.houston.control.asset.api.dto;
 
-import ru.wolfbertfx.houston.common.asset.Instrument;
 import ru.wolfbertfx.houston.common.asset.Currency;
 import ru.wolfbertfx.houston.common.asset.Discovery;
 import ru.wolfbertfx.houston.common.asset.Nature;
-import ru.wolfbertfx.houston.common.asset.Pipeline;
+import ru.wolfbertfx.houston.common.pipeline.Pipeline;
 import ru.wolfbertfx.houston.common.asset.Segment;
 import ru.wolfbertfx.houston.common.asset.Status;
 import ru.wolfbertfx.houston.common.asset.Type;
-import ru.wolfbertfx.houston.common.venue.Venue;
+import ru.wolfbertfx.houston.common.asset.Venue;
 
 import java.time.Instant;
 

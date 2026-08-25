@@ -1,4 +1,6 @@
-package ru.wolfbertfx.houston.common.asset;
+package ru.wolfbertfx.houston.common.pipeline;
+
+import ru.wolfbertfx.houston.common.asset.Status;
 
 import java.util.Arrays;
 import java.util.Map;
