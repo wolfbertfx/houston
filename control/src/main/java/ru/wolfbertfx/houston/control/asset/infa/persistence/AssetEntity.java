@@ -15,15 +15,15 @@ class AssetEntity {
     private Long id;
 
     @Convert(converter = InstrumentConverter.class)
-    @Column(name = "instrument_id", nullable = false, unique = true)
+    @Column(name = "instrument_id")
     private Instrument instrument;
 
     @Convert(converter = StatusConverter.class)
-    @Column(name = "status_id", nullable = false)
+    @Column(name = "status_id")
     private Status status = Status.DISABLED;
 
     @Version
-    @Column(name = "version", nullable = false)
+    @Column(name = "version")
     private Long version;
 
     @Column(name = "last_updated")
