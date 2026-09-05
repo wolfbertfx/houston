@@ -1,4 +1,4 @@
-package ru.wolfbertfx.houston.control.shared.api.mapper;
+package ru.wolfbertfx.houston.control.asset.api.mapper;
 
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
@@ -11,11 +11,6 @@ import org.slf4j.LoggerFactory;
 import ru.wolfbertfx.houston.control.asset.domain.AssetNotFoundException;
 import ru.wolfbertfx.houston.control.shared.api.ErrorResponse;
 
-/**
- * Транслирует доменное исключение в HTTP-контракт: актив не найден → 404.
- * WARN сознательно: в норме каталог синхронизируется с БД на старте,
- * поэтому эта ошибка — сигнал дрейфа данных, а не ожидаемый ответ.
- */
 @Provider
 public class AssetNotFoundMapper implements ExceptionMapper<AssetNotFoundException> {
 

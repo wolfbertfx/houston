@@ -16,7 +16,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import ru.wolfbertfx.houston.common.asset.Instrument;
 import ru.wolfbertfx.houston.control.asset.AssetService;
-import ru.wolfbertfx.houston.control.asset.api.dto.AssetApiMapper;
+import ru.wolfbertfx.houston.control.asset.api.mapper.AssetApiMapper;
 import ru.wolfbertfx.houston.control.asset.api.dto.AssetResponse;
 import ru.wolfbertfx.houston.control.asset.api.dto.UpdateAssetStatusRequest;
 import ru.wolfbertfx.houston.control.shared.api.ErrorResponse;

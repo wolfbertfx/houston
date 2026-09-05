@@ -1,5 +1,6 @@
-package ru.wolfbertfx.houston.control.asset.api.dto;
+package ru.wolfbertfx.houston.control.asset.api.mapper;
 
+import ru.wolfbertfx.houston.control.asset.api.dto.AssetResponse;
 import ru.wolfbertfx.houston.control.asset.domain.Asset;
 
 import java.util.List;
