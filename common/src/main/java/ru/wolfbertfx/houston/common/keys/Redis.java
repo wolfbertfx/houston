@@ -1,6 +1,6 @@
 package ru.wolfbertfx.houston.common.keys;
 
-import ru.wolfbertfx.houston.common.asset.Venue;
+import ru.wolfbertfx.houston.common.venue.Venue;
 import ru.wolfbertfx.houston.common.asset.Status;
 import ru.wolfbertfx.houston.common.pipeline.State;
 

@@ -1,6 +1,6 @@
 package ru.wolfbertfx.houston.control.asset.infra.cache;
 
-import ru.wolfbertfx.houston.common.asset.Venue;
+import ru.wolfbertfx.houston.common.venue.Venue;
 import ru.wolfbertfx.houston.common.keys.Redis;
 
 /**

@@ -7,7 +7,7 @@ import ru.wolfbertfx.houston.common.pipeline.Pipeline;
 import ru.wolfbertfx.houston.common.asset.Segment;
 import ru.wolfbertfx.houston.common.asset.Status;
 import ru.wolfbertfx.houston.common.asset.Type;
-import ru.wolfbertfx.houston.common.asset.Venue;
+import ru.wolfbertfx.houston.common.venue.Venue;
 
 import java.time.Instant;
 

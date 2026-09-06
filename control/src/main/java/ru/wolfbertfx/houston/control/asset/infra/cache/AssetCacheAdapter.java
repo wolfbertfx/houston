@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.wolfbertfx.houston.common.asset.Instrument;
 import ru.wolfbertfx.houston.common.asset.Status;
-import ru.wolfbertfx.houston.common.asset.Venue;
+import ru.wolfbertfx.houston.common.venue.Venue;
 import ru.wolfbertfx.houston.control.asset.domain.AssetCache;
 
 import java.time.temporal.ChronoUnit;

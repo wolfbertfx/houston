@@ -1,6 +1,4 @@
-package ru.wolfbertfx.houston.common.pipeline;
-
-import ru.wolfbertfx.houston.common.asset.Venue;
+package ru.wolfbertfx.houston.common.venue;
 
 import java.util.Arrays;
 import java.util.EnumSet;
