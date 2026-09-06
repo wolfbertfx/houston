@@ -1,4 +1,4 @@
-package ru.wolfbertfx.houston.control.asset.infa.cache;
+package ru.wolfbertfx.houston.control.asset.infra.cache;
 
 import io.quarkus.redis.datasource.RedisDataSource;
 import io.quarkus.redis.datasource.set.SetCommands;
@@ -16,14 +16,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @ApplicationScoped
-public class AssetRedisCache implements AssetCache {
+public class AssetCacheAdapter implements AssetCache {
 
-    private static final Logger log = LoggerFactory.getLogger(AssetRedisCache.class);
+    private static final Logger log = LoggerFactory.getLogger(AssetCacheAdapter.class);
 
     private final SetCommands<String, String> setCommands;
     private final AtomicBoolean cacheOutOfSync = new AtomicBoolean(false);
 
-    public AssetRedisCache(RedisDataSource redisDataSource) {
+    public AssetCacheAdapter(RedisDataSource redisDataSource) {
         this.setCommands = redisDataSource.set(String.class, String.class);
     }
 
@@ -31,8 +31,8 @@ public class AssetRedisCache implements AssetCache {
     @Retry(delay = 100, delayUnit = ChronoUnit.MILLIS)
     @Fallback(fallbackMethod = "fallbackPut")
     public void put(Instrument instrument, Status status) {
-        VenueKeys keys = VenueKeys.forVenue(instrument.getVenue());
-        String id = String.valueOf(instrument.getId());
+        var keys = AssetStatusKeys.forVenue(instrument.getVenue());
+        var id = String.valueOf(instrument.getId());
 
         switch (status) {
             case ENABLED -> {

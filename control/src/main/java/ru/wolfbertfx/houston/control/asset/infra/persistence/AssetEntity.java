@@ -1,8 +1,9 @@
-package ru.wolfbertfx.houston.control.asset.infa.persistence;
+package ru.wolfbertfx.houston.control.asset.infra.persistence;
 
 import jakarta.persistence.*;
 import ru.wolfbertfx.houston.common.asset.Instrument;
 import ru.wolfbertfx.houston.common.asset.Status;
+import ru.wolfbertfx.houston.control.shared.infra.persistence.InstrumentConverter;
 import java.time.Instant;
 import java.util.Objects;
 

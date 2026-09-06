@@ -1,4 +1,4 @@
-package ru.wolfbertfx.houston.control.asset.infa.persistence;
+package ru.wolfbertfx.houston.control.asset.infra.persistence;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

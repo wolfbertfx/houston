@@ -1,4 +1,4 @@
-package ru.wolfbertfx.houston.control.asset.infa.persistence;
+package ru.wolfbertfx.houston.control.asset.infra.persistence;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
