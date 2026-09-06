@@ -2,4 +2,5 @@
 .DS_Store
 /dev_env_compose.yml
 
-.idea/
+# Root-level only
+*.iml
