@@ -1,6 +1,6 @@
-/.idea/
-.DS_Store
-/dev_env_compose.yml
-
 # Root-level only
+/.idea/
 *.iml
+.DS_Store
+/CONTEXT.md
+/dev_env_compose.yml
