@@ -1,7 +1,7 @@
 package ru.wolfbertfx.houston.control.asset.infra.cache;
 
 import ru.wolfbertfx.houston.common.asset.Venue;
-import ru.wolfbertfx.houston.common.keys.RedisKeys;
+import ru.wolfbertfx.houston.common.keys.Redis;
 
 /**
  * Ключи Redis для статусов активов на конкретной площадке.
@@ -27,8 +27,8 @@ final class AssetStatusKeys {
 
     static AssetStatusKeys forVenue(Venue venue) {
         return new AssetStatusKeys(
-                RedisKeys.venueAssetsEnabled(venue),
-                RedisKeys.venueAssetsPreparing(venue)
+                Redis.venueAssetsEnabled(venue),
+                Redis.venueAssetsPreparing(venue)
         );
     }
 }
