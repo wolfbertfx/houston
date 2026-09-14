@@ -22,6 +22,13 @@ public class VenueSessionRepositoryAdapter implements VenueSessionRepository {
     }
 
     @Override
+    public List<VenueSession> findByVenueAndDay(Venue venue, int dayOfWeek) {
+        return VenueSessionEntity.find("venue = ?1 and dayOfWeek = ?2", venue, dayOfWeek).stream()
+                .map(e -> toDomain((VenueSessionEntity) e))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Optional<VenueSession> findByVenueAndDayAndPhase(Venue venue, int dayOfWeek, Phase phase) {
         return VenueSessionEntity.find("venue = ?1 and dayOfWeek = ?2 and phase = ?3", venue, dayOfWeek, phase)
                 .firstResultOptional()

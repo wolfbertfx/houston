@@ -11,6 +11,7 @@ import java.util.Optional;
  */
 public interface VenueSessionRepository {
     List<VenueSession> findByVenue(Venue venue);
+    List<VenueSession> findByVenueAndDay(Venue venue, int dayOfWeek);
     Optional<VenueSession> findByVenueAndDayAndPhase(Venue venue, int dayOfWeek, Phase phase);
     VenueSession save(VenueSession session);
     void delete(VenueSession session);
