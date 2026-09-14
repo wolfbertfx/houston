@@ -6,9 +6,10 @@ import ru.wolfbertfx.houston.common.asset.Instrument;
 import ru.wolfbertfx.houston.common.asset.Type;
 import ru.wolfbertfx.houston.common.venue.Venue;
 import ru.wolfbertfx.houston.control.shared.infra.persistence.InstrumentConverter;
-import ru.wolfbertfx.houston.control.venue.domain.ExceptionType;
+import ru.wolfbertfx.houston.control.venue.domain.CalendarException;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "calendar_exceptions")
@@ -38,7 +39,7 @@ public class CalendarExceptionEntity extends PanacheEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "exception_type", nullable = false)
-    private ExceptionType type;
+    private CalendarException.ExceptionType type;
 
     @Column(name = "description", length = 255)
     private String description;
@@ -60,8 +61,8 @@ public class CalendarExceptionEntity extends PanacheEntity {
     public void setInstrument(Instrument instrument) { this.instrument = instrument; }
     public Type getInstrumentType() { return instrumentType; }
     public void setInstrumentType(Type instrumentType) { this.instrumentType = instrumentType; }
-    public ExceptionType getType() { return type; }
-    public void setType(ExceptionType type) { this.type = type; }
+    public CalendarException.ExceptionType getType() { return type; }
+    public void setType(CalendarException.ExceptionType type) { this.type = type; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
     public Long getVersion() { return version; }
@@ -71,11 +72,11 @@ public class CalendarExceptionEntity extends PanacheEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CalendarExceptionEntity that)) return false;
-        return java.util.Objects.equals(venue, that.venue)
-                && java.util.Objects.equals(startDate, that.startDate)
-                && java.util.Objects.equals(endDate, that.endDate)
-                && java.util.Objects.equals(instrument, that.instrument)
-                && java.util.Objects.equals(instrumentType, that.instrumentType);
+        return Objects.equals(venue, that.venue)
+                && Objects.equals(startDate, that.startDate)
+                && Objects.equals(endDate, that.endDate)
+                && Objects.equals(instrument, that.instrument)
+                && Objects.equals(instrumentType, that.instrumentType);
     }
 
     @Override

@@ -26,6 +26,26 @@ public record CalendarException(
         return !date.isBefore(startDate) && !date.isAfter(endDate);
     }
 
+    /** Покрывает ли исключение данный инструмент (учитывает instrument и instrumentType) */
+    public boolean covers(Instrument instrument) {
+        if (this.instrument != null) {
+            return this.instrument.equals(instrument);
+        }
+        if (instrumentType != null) {
+            return instrumentType.equals(instrument.getType());
+        }
+        return true; // null instrument && null instrumentType = все инструменты площадки
+    }
+
+    public enum ExceptionType {
+        /** Полное закрытие площадки/инструмента */
+        FULL_CLOSE,
+        /** Сокращённые часы — используется customSchedule */
+        REDUCED_HOURS,
+        /** Полностью кастомное расписание на день */
+        CUSTOM_SCHEDULE
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
