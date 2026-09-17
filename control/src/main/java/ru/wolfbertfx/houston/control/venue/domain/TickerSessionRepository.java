@@ -1,6 +1,6 @@
 package ru.wolfbertfx.houston.control.venue.domain;
 
-import ru.wolfbertfx.houston.common.asset.Instrument;
+import ru.wolfbertfx.houston.common.asset.Ticker;
 import ru.wolfbertfx.houston.common.venue.Venue;
 
 import java.util.List;

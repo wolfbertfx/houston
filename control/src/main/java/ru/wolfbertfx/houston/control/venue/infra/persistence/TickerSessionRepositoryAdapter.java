@@ -2,7 +2,6 @@ package ru.wolfbertfx.houston.control.venue.infra.persistence;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
-import ru.wolfbertfx.houston.common.asset.Instrument;
 import ru.wolfbertfx.houston.common.venue.Venue;
 import ru.wolfbertfx.houston.control.venue.domain.InstrumentSession;
 import ru.wolfbertfx.houston.control.venue.domain.InstrumentSessionRepository;
@@ -40,8 +39,8 @@ public class InstrumentSessionRepositoryAdapter implements InstrumentSessionRepo
             entity = new InstrumentSessionEntity();
         }
         entity.setVenue(session.venue());
-        entity.setInstrument(session.instrument());
-        entity.setType(session.type());
+        entity.setTicker(session.instrument());
+        entity.setForm(session.form());
         entity.setDayOfWeek(session.dayOfWeek());
         entity.setPhase(session.phase());
         entity.setOpenTime(session.openTime());
@@ -62,8 +61,8 @@ public class InstrumentSessionRepositoryAdapter implements InstrumentSessionRepo
         return new InstrumentSession(
                 entity.getId(),
                 entity.getVenue(),
-                entity.getInstrument(),
-                entity.getType(),
+                entity.getTicker(),
+                entity.getForm(),
                 entity.getDayOfWeek(),
                 entity.getPhase(),
                 entity.getOpenTime(),

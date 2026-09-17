@@ -28,7 +28,7 @@ public enum Segment {
 
     public static Segment fromId(int id) {
         var taxon = BY_ID.get(id);
-        if (taxon == null) {throw new IllegalArgumentException("Unknown AssetTaxon ID: " + id);}
+        if (taxon == null) {throw new IllegalArgumentException("Unknown Segment ID: " + id);}
         return taxon;
     }
 }

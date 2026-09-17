@@ -1,7 +1,7 @@
 package ru.wolfbertfx.houston.control.venue.domain;
 
-import ru.wolfbertfx.houston.common.asset.Instrument;
-import ru.wolfbertfx.houston.common.asset.Type;
+import ru.wolfbertfx.houston.common.asset.Form;
+import ru.wolfbertfx.houston.common.asset.Ticker;
 import ru.wolfbertfx.houston.common.venue.Venue;
 import ru.wolfbertfx.houston.common.venue.Phase;
 
@@ -20,8 +20,8 @@ import java.util.Objects;
 public record InstrumentSession(
         Long id,
         Venue venue,
-        Instrument instrument,           // null = применить ко всем инструментам типа typeId
-        Type type,                       // null = конкретный инструмент instrumentId
+        Ticker instrument,           // null = применить ко всем инструментам типа typeId
+        Form form,                       // null = конкретный инструмент instrumentId
         int dayOfWeek,                   // 1=MON .. 7=SUN
         Phase phase,
         LocalTime openTime,
@@ -38,23 +38,23 @@ public record InstrumentSession(
         if (!(o instanceof InstrumentSession that)) return false;
         return venue == that.venue
                 && Objects.equals(instrument, that.instrument)
-                && Objects.equals(type, that.type)
+                && Objects.equals(form, that.form)
                 && dayOfWeek == that.dayOfWeek
                 && phase == that.phase;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(venue, instrument, type, dayOfWeek, phase);
+        return Objects.hash(venue, instrument, form, dayOfWeek, phase);
     }
 
     /** Фабричный метод для конкретного инструмента */
-    public static InstrumentSession forInstrument(Venue venue, Instrument instrument, int dayOfWeek, Phase phase, LocalTime open, LocalTime close) {
+    public static InstrumentSession forInstrument(Venue venue, Ticker instrument, int dayOfWeek, Phase phase, LocalTime open, LocalTime close) {
         return new InstrumentSession(null, venue, instrument, null, dayOfWeek, phase, open, close);
     }
 
     /** Фабричный метод для типа инструментов */
-    public static InstrumentSession forType(Venue venue, Type type, int dayOfWeek, Phase phase, LocalTime open, LocalTime close) {
-        return new InstrumentSession(null, venue, null, type, dayOfWeek, phase, open, close);
+    public static InstrumentSession forType(Venue venue, Form form, int dayOfWeek, Phase phase, LocalTime open, LocalTime close) {
+        return new InstrumentSession(null, venue, null, form, dayOfWeek, phase, open, close);
     }
 }

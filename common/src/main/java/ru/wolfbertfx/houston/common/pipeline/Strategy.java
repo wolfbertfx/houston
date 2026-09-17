@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /** Определяет стратегию обработки и нормализации потока рыночных данных. */
-public enum Pipeline {
+public enum Strategy {
 
     /** Прямая трансляция без обработки (для спотовых активов). */
     DIRECT(1),
@@ -15,16 +15,16 @@ public enum Pipeline {
     PERPETUAL(3);
 
     private final int id;
-    private static final Map<Integer, Pipeline> BY_ID;
+    private static final Map<Integer, Strategy> BY_ID;
 
-    static {BY_ID = Arrays.stream(values()).collect(Collectors.toMap(Pipeline::getId, e -> e));}
+    static {BY_ID = Arrays.stream(values()).collect(Collectors.toMap(Strategy::getId, e -> e));}
 
-    Pipeline(int id) {this.id = id;}
+    Strategy(int id) {this.id = id;}
     public int getId() {return id;}
 
-    public static Pipeline fromId(int id) {
+    public static Strategy fromId(int id) {
         var pipeline = BY_ID.get(id);
-        if (pipeline == null) {throw new IllegalArgumentException("Unknown Pipeline ID: " + id);}
+        if (pipeline == null) {throw new IllegalArgumentException("Unknown Strategy ID: " + id);}
         return pipeline;
     }
 }
