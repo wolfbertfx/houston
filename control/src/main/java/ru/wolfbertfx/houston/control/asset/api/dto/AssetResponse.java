@@ -3,29 +3,27 @@ package ru.wolfbertfx.houston.control.asset.api.dto;
 import ru.wolfbertfx.houston.common.asset.Currency;
 import ru.wolfbertfx.houston.common.asset.Discovery;
 import ru.wolfbertfx.houston.common.asset.Nature;
-import ru.wolfbertfx.houston.common.pipeline.Pipeline;
 import ru.wolfbertfx.houston.common.asset.Segment;
 import ru.wolfbertfx.houston.common.asset.Status;
-import ru.wolfbertfx.houston.common.asset.Type;
+import ru.wolfbertfx.houston.common.asset.Form;
 import ru.wolfbertfx.houston.common.venue.Venue;
 
-import java.time.Instant;
+import ru.wolfbertfx.houston.common.pipeline.Strategy;
 
 /**
  * Контракт представления актива для внешних потребителей (console).
  * Обогащён статическими метаданными инструмента, чтобы фронт не собирал их по частям.
  */
 public record AssetResponse(
-        int instrumentId,
+        int tickerId,
         String symbol,
         Status status,
         Venue venue,
-        Type type,
+        Form form,
         Nature nature,
         Segment segment,
         Currency currency,
         Discovery discovery,
-        Pipeline pipeline,
-        Instant lastUpdated
+        Strategy strategy
 ) {
 }
