@@ -20,9 +20,7 @@ public class IllegalArgumentMapper implements ExceptionMapper<IllegalArgumentExc
     @Override
     public Response toResponse(IllegalArgumentException e) {
         log.debug("Client input rejected: {}", e.getMessage());
-        return Response.status(Response.Status.BAD_REQUEST)
-                .type(MediaType.APPLICATION_JSON_TYPE)
-                .entity(ErrorResponse.of(e.getMessage()))
-                .build();
+        return Response.status(Response.Status.BAD_REQUEST).type(MediaType.APPLICATION_JSON_TYPE)
+        .entity(ErrorResponse.of(e.getMessage())).build();
     }
 }

@@ -22,9 +22,7 @@ public class JsonProcessingMapper implements ExceptionMapper<JsonProcessingExcep
     @Override
     public Response toResponse(JsonProcessingException e) {
         log.debug("Malformed request body rejected: {}", e.getOriginalMessage());
-        return Response.status(Response.Status.BAD_REQUEST)
-                .type(MediaType.APPLICATION_JSON_TYPE)
-                .entity(ErrorResponse.of("Malformed request body: " + e.getOriginalMessage()))
-                .build();
+        return Response.status(Response.Status.BAD_REQUEST).type(MediaType.APPLICATION_JSON_TYPE)
+        .entity(ErrorResponse.of("Malformed request body: " + e.getOriginalMessage())).build();
     }
 }
