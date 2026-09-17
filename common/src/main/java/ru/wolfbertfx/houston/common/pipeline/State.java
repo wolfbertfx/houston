@@ -1,4 +1,4 @@
-package ru.wolfbertfx.houston.common.processing;
+package ru.wolfbertfx.houston.common.pipeline;
 
 import ru.wolfbertfx.houston.common.asset.Status;
 
