@@ -1,11 +1,11 @@
-package ru.wolfbertfx.houston.common.pipeline;
+package ru.wolfbertfx.houston.common.contract;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Правило переключения контрактов при склейке непрерывной серии (Pipeline.PANAMA).
+ * Правило переключения контрактов при склейке непрерывной серии (Strategy.PANAMA).
  * Контракт для control (политика: какой метод + параметры) и processing (исполнение на реальных данных).
  * Назначение «инструмент → метод» живёт в политике control, а не здесь: типы методов — код, выбор — настройка.
  */
