@@ -15,19 +15,18 @@ public final class AssetApiMapper {
     }
 
     public static AssetResponse toResponse(Asset asset) {
-        var instrument = asset.instrument();
+        var ticker = asset.ticker();
         return new AssetResponse(
-                instrument.getId(),
-                instrument.getSymbol(),
+                ticker.getId(),
+                ticker.getSymbol(),
                 asset.status(),
-                instrument.getVenue(),
-                instrument.getType(),
-                instrument.getNature(),
-                instrument.getSegment(),
-                instrument.getCurrency(),
-                instrument.getDiscovery(),
-                instrument.getPipeline(),
-                asset.lastUpdated()
+                ticker.getVenue(),
+                ticker.getForm(),
+                ticker.getNature(),
+                ticker.getSegment(),
+                ticker.getCurrency(),
+                ticker.getDiscovery(),
+                ticker.getPipeline()
         );
     }
 

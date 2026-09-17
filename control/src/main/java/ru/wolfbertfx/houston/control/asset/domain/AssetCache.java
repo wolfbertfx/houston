@@ -1,6 +1,6 @@
 package ru.wolfbertfx.houston.control.asset.domain;
 
-import ru.wolfbertfx.houston.common.asset.Instrument;
+import ru.wolfbertfx.houston.common.asset.Ticker;
 import ru.wolfbertfx.houston.common.asset.Status;
 
 /**
@@ -10,7 +10,7 @@ import ru.wolfbertfx.houston.common.asset.Status;
 public interface AssetCache {
 
     /** Сохранить статус инструмента в кэш. */
-    void put(Instrument instrument, Status status);
+    void put(Ticker ticker, Status status);
 
     /** Проверить, есть ли флаг рассинхрона кэша. */
     default boolean isCacheOutOfSync() {

@@ -7,7 +7,7 @@ import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.wolfbertfx.houston.common.asset.Instrument;
+import ru.wolfbertfx.houston.common.asset.Ticker;
 import ru.wolfbertfx.houston.common.asset.Status;
 import ru.wolfbertfx.houston.common.venue.Venue;
 import ru.wolfbertfx.houston.control.asset.domain.AssetCache;
@@ -30,9 +30,9 @@ public class AssetCacheAdapter implements AssetCache {
     @Override
     @Retry(delay = 100, delayUnit = ChronoUnit.MILLIS)
     @Fallback(fallbackMethod = "fallbackPut")
-    public void put(Instrument instrument, Status status) {
-        var keys = AssetStatusKeys.forVenue(instrument.getVenue());
-        var id = String.valueOf(instrument.getId());
+    public void put(Ticker ticker, Status status) {
+        var keys = AssetStatusKeys.forVenue(ticker.getVenue());
+        var id = String.valueOf(ticker.getId());
 
         switch (status) {
             case ENABLED -> {
@@ -50,7 +50,7 @@ public class AssetCacheAdapter implements AssetCache {
         }
     }
 
-    public void fallbackPut(Instrument instrument, Throwable t) {
+    public void fallbackPut(Ticker instrument, Throwable t) {
         markOutOfSync(instrument.getVenue(), t);
     }
 
